@@ -11,7 +11,13 @@ public class GroundGenerator : MonoBehaviour {
 	private float groundWidth;
 
 	public float distanceBetweenMin;
-	public float distanceBetweenMax;
+	public  float distanceBetweenMax;
+
+	//array to choose all the platforms not just one length
+	public GameObject[] grounds;
+	private int groundSelector;
+
+
 	// Use this for initialization
 	void Start () {
 		//
@@ -30,6 +36,7 @@ public class GroundGenerator : MonoBehaviour {
 				//moved the platform widht, and left space in between with this line making sure of no overlapping..
 			transform.position = new Vector3 (transform.position.x + groundWidth + distanceBetween, transform.position.y, transform.position.z);
 		
+			groundSelector = Random.Range (0, grounds.Length);
 				//creates copy of the ground
 			Instantiate (theGround, transform.position, transform.rotation);
 		}
