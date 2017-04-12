@@ -38,8 +38,8 @@ public class GroundGenerator : MonoBehaviour {
 		
 			groundSelector = Random.Range (0, grounds.Length);
 				//creates copy of the ground
-			Instantiate (theGround, transform.position, transform.rotation);
+			Instantiate (grounds[groundSelector], transform.position, transform.rotation);
 		}
 		
 	}
-}
+} 
