@@ -20,6 +20,11 @@ public class GroundGenerator : MonoBehaviour
 	private int groundSelector;
 	private float[] groundWidths;
 
+	private float minHeight;
+	public Transform maxHeightMark;
+	private float maxHeight;
+	public float maxHeightChange;
+	private float heightChange;
 	// Use this for initialization
 	void Start () 
 	{
@@ -31,6 +36,10 @@ public class GroundGenerator : MonoBehaviour
 		{
 			groundWidths[i] = grounds[i].GetComponent<BoxCollider2D>().size.x; 
 		}
+
+		minHeight = transform.position.y; 
+		maxHeight = maxHeightMark.position.y;
+
 	}
 	
 	// Update is called once per frame
@@ -43,9 +52,19 @@ public class GroundGenerator : MonoBehaviour
 			distanceBetween = Random.Range (distanceBetweenMin, distanceBetweenMax);
 
 			groundSelector = Random.Range (0, grounds.Length); 
+			//changes the height positions of the ground.
+			heightChange = transform.position.y + Random.Range(maxHeightChange, -maxHeightChange);
 
-				//moved the platform widht, and left space in between with this line making sure of no overlapping..
-			transform.position = new Vector3 (transform.position.x + groundWidths[groundSelector]  + distanceBetween, transform.position.y, transform.position.z);
+			// statement stops the ground leaving the camera area
+			if (heightChange > maxHeight) {
+				heightChange = maxHeight;
+			} else if (heightChange < minHeight) 
+			{
+				heightChange = minHeight;
+			}
+
+				//moved the platform width, and left space in between with this line making sure of no overlapping..
+			transform.position = new Vector3 (transform.position.x + groundWidths[groundSelector]  + distanceBetween, heightChange, transform.position.z);
 		
 
 				//creates copy of the ground
