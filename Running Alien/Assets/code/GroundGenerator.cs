@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundGenerator : MonoBehaviour {
+public class GroundGenerator : MonoBehaviour 
+{
 
 	public GameObject theGround;
 	public Transform generateMark;
@@ -10,18 +11,26 @@ public class GroundGenerator : MonoBehaviour {
 
 	private float groundWidth;
 
+
 	public float distanceBetweenMin;
 	public  float distanceBetweenMax;
 
 	//array to choose all the platforms not just one length
 	public GameObject[] grounds;
 	private int groundSelector;
-
+	private float[] groundWidths;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		//
-		groundWidth = theGround.GetComponent<BoxCollider2D>().size.x;
+		//groundWidth = theGround.GetComponent<BoxCollider2D>().size.x;
+		groundWidths = new float[grounds.Length];
+		//for loop to determine the collision on the different sized platforms
+		for (int i = 0; i < grounds.Length; i++) 
+		{
+			groundWidths[i] = grounds[i].GetComponent<BoxCollider2D>().size.x; 
+		}
 	}
 	
 	// Update is called once per frame
@@ -32,11 +41,13 @@ public class GroundGenerator : MonoBehaviour {
 		{   
 			//generate random number for gaps
 			distanceBetween = Random.Range (distanceBetweenMin, distanceBetweenMax);
-			
+
+			groundSelector = Random.Range (0, grounds.Length); 
+
 				//moved the platform widht, and left space in between with this line making sure of no overlapping..
-			transform.position = new Vector3 (transform.position.x + groundWidth + distanceBetween, transform.position.y, transform.position.z);
+			transform.position = new Vector3 (transform.position.x + groundWidths[groundSelector]  + distanceBetween, transform.position.y, transform.position.z);
 		
-			groundSelector = Random.Range (0, grounds.Length);
+
 				//creates copy of the ground
 			Instantiate (grounds[groundSelector], transform.position, transform.rotation);
 		}
