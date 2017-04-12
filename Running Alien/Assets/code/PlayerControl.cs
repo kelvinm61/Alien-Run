@@ -6,6 +6,8 @@ public class PlayerControl : MonoBehaviour {
 
 	public float movePace;
 	public float jumpHeight;
+	public float jumpTime;
+	private float jumpTimeCount;
 
 	private Rigidbody2D rigidBody;
 
@@ -24,6 +26,8 @@ public class PlayerControl : MonoBehaviour {
 		collider = GetComponent<Collider2D> ();
 
 		animator = GetComponent<Animator> ();
+
+		jumpTimeCount = jumpTime;
 	}
 
 	// Update is called once per frame
@@ -43,6 +47,27 @@ public class PlayerControl : MonoBehaviour {
 				rigidBody.velocity = new Vector2 (rigidBody.velocity.x, jumpHeight);
 			}
 		}
+		//so when any button is held dow it will pro long the jump to the specified time limit.
+		if (Input.GetKey (KeyCode.Space) || Input.GetMouseButton(0))
+			{
+				if (jumpTimeCount > 0)
+				{
+					rigidBody.velocity = new Vector2 (rigidBody.velocity.x, jumpHeight); 
+					jumpTimeCount -= Time.deltaTime;
+				}
+			 }
+		//stop player holding button down
+		if (Input.GetKeyUp (KeyCode.Space) || (Input.GetMouseButtonUp(0)))
+			{
+				jumpTimeCount=0;
+			}
+			//reset jump time counter
+			if (ground)
+			{
+				jumpTimeCount = jumpTime;
+			}
+
+
 		//sets speed so animation can happen when speed is more than 0.
 		animator.SetFloat ("speed", rigidBody.velocity.x);
 		animator.SetBool ("ground", ground);
