@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -9,25 +9,35 @@ public class PlayerControl : MonoBehaviour {
 	public float jumpTime;
 	private float jumpTimeCount;
 
+	public float speedmultipier;
+
+	public float speedIncreaser;
+	private float speedMilestoneCount;
+
+
 	private Rigidbody2D rigidBody;
 
 	public bool ground;
 	public LayerMask whatIsGround;
+	public Transform GroundCheck;
+	public float groundcheckCircle;
 
-	private Collider2D collider;
+	//private Collider2D collider;
 
 	private Animator animator;
-
+	public Manager theAppManger;
 
 	// Use this for initialization
 	void Start () {
 		rigidBody = GetComponent<Rigidbody2D> ();
 
-		collider = GetComponent<Collider2D> ();
+		//collider = GetComponent<Collider2D> ();
 
 		animator = GetComponent<Animator> ();
 
 		jumpTimeCount = jumpTime;
+
+		speedMilestoneCount = speedIncreaser;
 	}
 
 	// Update is called once per frame
@@ -35,7 +45,17 @@ public class PlayerControl : MonoBehaviour {
 	{
 		// to see if collider(box around objects) is touching any other collider on a particular layer t/f
 
-		ground = Physics2D.IsTouchingLayers(collider, whatIsGround);
+		//ground = Physics2D.IsTouchingLayers(collider, whatIsGround);
+		ground = Physics2D.OverlapCircle(GroundCheck.position, groundcheckCircle, whatIsGround);  
+
+		//milestones making the player got a bit faster everytime he hits a milestone 
+		if (transform.position.x > speedMilestoneCount) 
+		{
+			speedMilestoneCount += speedIncreaser;
+
+			speedIncreaser = speedIncreaser * speedmultipier;
+			movePace = movePace + speedmultipier;
+		}
 
 		rigidBody.velocity = new Vector2 (movePace, rigidBody.velocity.y);
 		// buttons used to make alien jump
@@ -73,4 +93,13 @@ public class PlayerControl : MonoBehaviour {
 		animator.SetBool ("ground", ground);
 
 	}
+	// when box colliders touch (player and bottom box)
+	void onCollisionEnter2D (Collision2D other)
+	{
+		if (other.gameObject.tag == "killbox") 
+		{
+			theAppManger.RestartGame ();
+		}
+	}
+
 }
