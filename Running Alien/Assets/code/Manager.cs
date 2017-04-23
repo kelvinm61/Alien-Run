@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Manager : MonoBehaviour {
@@ -10,10 +9,14 @@ public class Manager : MonoBehaviour {
 	public PlayerControl player;
 	private Vector3 playerStartMark;
 
+	private Scores thescore;
 	// Use this for initialization
 	void Start () {
 		groundStartPoint = groundGenerator.position;
+		//ground generater is already a transform from above
 		playerStartMark = player.transform.position; 
+
+		//thescore = FindObjectOfType<Scores>(); 
 	}
 	
 	// Update is called once per frame
@@ -26,8 +29,10 @@ public class Manager : MonoBehaviour {
 		StartCoroutine ("RestartGameCo");
 	}
 
-	public IEnumerator RestartGameCo()
+	public IEnumerator RestartGameCo() 
 	{
+
+		thescore.scoreIncrease = false;
 		//makes the player inactive
 		player.gameObject.SetActive (false);
 		//delay
@@ -36,6 +41,8 @@ public class Manager : MonoBehaviour {
 		groundGenerator.position = groundStartPoint;
 		//makes player active again
 		player.gameObject.SetActive (true);
+		thescore.scoreCount = 0;
+		thescore.scoreIncrease = true;
 	}
 
 

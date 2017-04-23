@@ -96,7 +96,7 @@ public class PlayerControl : MonoBehaviour {
 	// when box colliders touch (player and bottom box)
 	void onCollisionEnter2D (Collision2D other)
 	{
-		if (other.gameObject.tag == "killbox") 
+		if (other.gameObject.tag == "murder") 
 		{
 			theAppManger.RestartGame ();
 		}
