@@ -8,13 +8,9 @@ public class GroundGenerator : MonoBehaviour
 	public GameObject theGround;
 	public Transform generateMark;
 	public float distanceBetween;
-
 	private float groundWidth;
-
-
 	public float distanceBetweenMin;
 	public  float distanceBetweenMax;
-
 	//array to choose all the platforms not just one length
 	public GameObject[] grounds;
 	private int groundSelector;

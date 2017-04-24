@@ -6,11 +6,10 @@ public class Manager : MonoBehaviour {
 
 	public Transform groundGenerator;
 	private Vector3 groundStartPoint;
-
 	public PlayerControl player;
 	private Vector3 playerStartMark;
-
 	private Scorekeeper theScorekeeper;
+
 	// Use this for initialization
 	void Start () {
 		groundStartPoint = groundGenerator.position;
